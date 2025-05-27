@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="ro">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebATS</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <style>
+      :root {
+        --primary: #29e6ff;
+        --secondary: #f99244;
+        --accent: #ffcc70;
+        --light: #f9f9f9;
+        --dark: #333333;
+        --gray: #6c757d;
+        --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: var(--light);
+        color: var(--dark);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 12px 30px;
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+        color: white;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        box-shadow: var(--box-shadow);
+      }
+
+      .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Header Styles */
+      header {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: rgb(255, 255, 255);
+        padding: 20px 0;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        box-shadow: var(--box-shadow);
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 28px;
+        font-weight: 700;
+      }
+
+      .logo span {
+        color: var(--accent);
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+      }
+
+      .nav-links li {
+        margin-left: 30px;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        color: var(--accent);
+      }
+
+      .hamburger {
+        display: none;
+        cursor: pointer;
+        font-size: 24px;
+      }
+
+      /* Hero Section */
+      .hero {
+        height: 100vh;
+        background: linear-gradient(
+            rgba(174, 227, 224, 0.8),
+            rgba(255, 242, 229, 0.8)
+          ),
+          url("/api/placeholder/1200/600") center/cover no-repeat;
+        color: white;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        padding-top: 60px;
+      }
+
+      .hero-content {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .hero h1 {
+        font-size: 3.5rem;
+        margin-bottom: 20px;
+        animation: fadeInUp 1s ease;
+      }
+      
+      .h1 {
+        color: #37e4fb;
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        animation: fadeInUp 1s ease 0.3s;
+        animation-fill-mode: both;
+      }
+
+      .hero-buttons {
+        animation: fadeInUp 1s ease 0.6s;
+        animation-fill-mode: both;
+      }
+
+      /* Services Section */
+      .section {
+        padding: 100px 0;
+      }
+
+      .section-header {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+
+      .section-header h2 {
+        font-size: 2.5rem;
+        color: var(--primary);
+        margin-bottom: 20px;
+        position: relative;
+        display: inline-block;
+      }
+
+      .section-header h2::after {
+        content: "";
+        position: absolute;
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 2px;
+      }
+
+      .section-header p {
+        color: var(--gray);
+        max-width: 700px;
+        margin: 0 auto;
+      }
+
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+      }
+
+      .service-card {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: var(--box-shadow);
+        transition: all 0.3s ease;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+      }
+
+      .service-card::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+        top: 0;
+        left: 0;
+      }
+
+      .service-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto 20px;
+        color: white;
+        font-size: 32px;
+      }
+
+      .service-card h3 {
+        color: var(--primary);
+        margin-bottom: 15px;
+        font-size: 1.5rem;
+      }
+
+      .service-card p {
+        color: var(--gray);
+        margin-bottom: 20px;
+      }
+
+      /* Pricing Section */
+      .pricing {
+        background-color: #f0f5ff;
+      }
+
+      .pricing-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+      }
+
+      .pricing-card {
+        background: white;
+        border-radius: 15px;
+        padding: 40px 30px;
+        box-shadow: var(--box-shadow);
+        text-align: center;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+      }
+
+      .pricing-card:hover {
+        transform: scale(1.03);
+        border-color: var(--secondary);
+      }
+
+      .pricing-card.featured {
+        border-color: var(--secondary);
+        position: relative;
+      }
+
+      .pricing-card.featured::before {
+        content: "Popular";
+        position: absolute;
+        top: -15px;
+        right: 30px;
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+
+      .price {
+        font-size: 3rem;
+        color: var(--primary);
+        margin: 20px 0;
+        font-weight: 700;
+      }
+
+      .price span {
+        font-size: 1rem;
+        color: var(--gray);
+      }
+
+      .pricing-features {
+        list-style: none;
+        margin: 30px 0;
+        text-align: left;
+      }
+
+      .pricing-features li {
+        margin-bottom: 15px;
+        position: relative;
+        padding-left: 30px;
+      }
+
+      .pricing-features li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: var(--primary);
+        font-weight: bold;
+      }
+
+      /* Portfolio Section */
+      .portfolio-gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+      }
+
+      .portfolio-item {
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+        height: 250px;
+        cursor: pointer;
+      }
+
+      .portfolio-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      .portfolio-item:hover img {
+        transform: scale(1.1);
+      }
+
+      .portfolio-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          rgba(58, 93, 232, 0.8),
+          rgba(200, 80, 192, 0.8)
+        );
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .portfolio-item:hover .portfolio-overlay {
+        opacity: 1;
+      }
+
+      /* Contact Section */
+      .contact {
+        background-color: #f9f9f9;
+      }
+
+      .contact-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+      }
+
+      .contact-info {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: var(--box-shadow);
+      }
+
+      .contact-info h3 {
+        color: var(--primary);
+        margin-bottom: 20px;
+        font-size: 1.5rem;
+      }
+
+      .contact-details {
+        list-style: none;
+      }
+
+      .contact-details li {
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+      }
+
+      .contact-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 15px;
+        color: white;
+        flex-shrink: 0;
+      }
+
+      .contact-form {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: var(--box-shadow);
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+      }
+
+      .form-control:focus {
+        outline: none;
+        border-color: var(--primary);
+      }
+
+      textarea.form-control {
+        min-height: 150px;
+        resize: vertical;
+      }
+
+      /* Footer */
+      footer {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        padding: 50px 0 20px;
+      }
+
+      .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      .footer-col h4 {
+        margin-bottom: 20px;
+        font-size: 1.3rem;
+        position: relative;
+        padding-bottom: 10px;
+      }
+
+      .footer-col h4::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 40px;
+        height: 3px;
+        background-color: var(--accent);
+      }
+
+      .footer-links {
+        list-style: none;
+      }
+
+      .footer-links li {
+        margin-bottom: 15px;
+      }
+
+      .footer-links a {
+        color: #eee;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+        margin-left: 5px;
+      }
+
+      .copyright {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      /* Responsive Styles */
+      @media screen and (max-width: 991px) {
+        .hero h1 {
+          font-size: 3rem;
+        }
+      }
+
+      @media screen and (max-width: 768px) {
+        .hamburger {
+          display: block;
+        }
+
+        .nav-links {
+          position: fixed;
+          top: 80px;
+          left: -100%;
+          width: 100%;
+          height: calc(100vh - 80px);
+          background: var(--primary);
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.5s ease;
+        }
+
+        .nav-links.active {
+          left: 0;
+        }
+
+        .nav-links li {
+          margin: 20px 0;
+        }
+
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+
+        .section {
+          padding: 60px 0;
+        }
+      }
+
+      @media screen and (max-width: 576px) {
+        .hero h1 {
+          font-size: 2rem;
+        }
+
+        .section-header h2 {
+          font-size: 2rem;
+        }
+
+        .price {
+          font-size: 2.5rem;
+        }
+      }
+
+      /* Animations */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Modal */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 2000;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal-content {
+        background-color: white;
+        padding: 30px;
+        border-radius: 15px;
+        max-width: 600px;
+        width: 90%;
+        position: relative;
+        animation: modalFadeIn 0.3s ease;
+      }
+
+      .close-modal {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        font-size: 24px;
+        cursor: pointer;
+        color: var(--dark);
+      }
+
+      .close-modal:hover {
+        color: var(--secondary);
+      }
+
+      @keyframes modalFadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Scrollbar */
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: linear-gradient(var(--primary), var(--secondary));
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(var(--secondary), var(--primary));
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header Section -->
+    <header>
+      <div class="container header-content">
+        <div class="logo">Web<span>ATS</span></div>
+        <div class="hamburger"></div>
+        <ul class="nav-links">
+          <li><a href="#acasa">Acasă</a></li>
+          <li><a href="#servicii">Servicii</a></li>
+          <li><a href="#preturi">Prețuri</a></li>
+          <li><a href="#portofoliu">Portofoliu</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul> 
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="acasa">
+      <div class="container hero-content">
+        <div class="h1"><h1>Site-uri Web Profesionale pentru Afacerea Ta</h1>
+        <p>
+          Îți oferim soluții web personalizate pentru a-ți aduce afacerea în
+          mediul online, la prețuri accesibile și termene rapide de livrare.
+        </p>
+        </div>
+        <div class="hero-buttons">
+          <a href="#preturi" class="btn">Vezi Prețurile</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="section" id="servicii">
+      <div class="container">
+        <div class="section-header">
+          <h2>Serviciile Noastre</h2>
+          <p>
+            Creare și dezvoltare de site-uri web personalizate pentru afaceri de
+            orice dimensiune
+          </p>
+        </div>
+
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="service-icon">🛍️</div>
+            <h3>Magazine & Retail</h3>
+            <p>
+              Site-uri profesionale pentru magazine, care îți prezintă produsele
+              și serviciile într-un mod atractiv și funcțional.
+            </p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">☕</div>
+            <h3>HoReCa</h3>
+            <p>
+              Soluții web pentru cafenele și restaurante, cu meniuri interactive
+              și prezentări atractive.
+            </p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">🔧</div>
+            <h3>Service-uri & Vulcanizări</h3>
+            <p>
+              Site-uri pentru service-uri auto și vulcanizări, cu sisteme de
+              prezentare a serviciilor.
+            </p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">💅</div>
+            <h3>Saloane de Înfrumusețare</h3>
+            <p>
+              Prezență online pentru saloane, cu galerii foto, liste de
+              servicii.
+            </p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">🏥</div>
+            <h3>Cabinete Medicale</h3>
+            <p>
+              Site-uri pentru clinici și cabinete medicale, cu prezentarea
+              serviciilor, a personalului și programări online.
+            </p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">💼</div>
+            <h3>Orice altă Afacere</h3>
+            <p>
+              Soluții web pentru afacerea ta, cu galerii foto, informații despre
+              locație, introducând astfel afacerea ta în lumea digitală.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="section pricing" id="preturi">
+      <div class="container">
+        <div class="section-header">
+          <h2>Prețuri Transparente</h2>
+          <p>Oferte simple și clare, fără costuri ascunse sau surprize</p>
+        </div>
+
+        <div class="pricing-cards">
+          <div class="pricing-card">
+            <h3>Pachet Basic</h3>
+            <div class="price">20€ <span>/ pagină</span></div>
+            <p>Ideal pentru site-uri simple, cu conținut furnizat de client</p>
+            <ul class="pricing-features">
+              <li>Creare site 1-5 pagini</li>
+              <li>Design responsive (adaptat pentru mobil)</li>
+              <li>Conținut furnizat de client</li>
+              <li>Livrare în 3-4 zile</li>
+              <li>1 revizie gratuită</li>
+            </ul>
+            <a href="#contact" class="btn">Solicită Ofertă</a>
+          </div>
+
+          <div class="pricing-card featured">
+            <h3>Pachet Premium</h3>
+            <div class="price">30€ <span>/ pagină</span></div>
+            <p>Soluție completă, cu conținut creat personalizat</p>
+            <ul class="pricing-features">
+              <li>Creare site 1-7 pagini</li>
+              <li>Design responsive (adaptat pentru mobil)</li>
+              <li>Conținut furnizat de client / Conținut creat de mine pe baza ideilor clientului</li>
+              <li>Livrare în 1-2 zile</li>
+              <li>3 revizii gratuite</li>
+            </ul>
+            <a href="#contact" class="btn">Solicită Ofertă</a>
+          </div>
+
+          <div class="pricing-card">
+            <h3>Actualizare Site</h3>
+            <div class="price">Personalizat</div>
+            <p>Pentru site-uri existente care necesită modificări</p>
+            <ul class="pricing-features">
+              <li>Actualizare design</li>
+              <li>Adăugare pagini noi</li>
+              <li>Update conținut text și imagini</li>
+              <li>Optimizare pentru dispozitive mobile</li>
+              <li>Preț în funcție de volumul de lucru</li>
+            </ul>
+            <a href="#contact" class="btn">Solicită Ofertă</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="section" id="portofoliu">
+      <div class="container">
+        <div class="section-header">
+          <h2>Modele de site-uri</h2>
+          <p>Exemple de site-uri după care te poți ghida</p>
+        </div>
+
+        <div class="portfolio-gallery">
+          <div class="portfolio-item">
+            <img src="siteitalian.png" alt="Proiect Restaurant" />
+            <div class="portfolio-overlay">
+              <h3>Model Site (Restaurant Italian)</h3>
+              <p>Design modern, meniu interactiv și sistem de rezervări</p>
+              <a href="https://alexie13.github.io/Restaurant-Italian/"
+                ><button class="btn view-project" data-project="restaurant">
+                  Vezi Detalii
+                </button></a
+              >
+            </div>
+          </div>
+          <div class="portfolio-item">
+            <img src="beautysalon.png" alt="Proiect Salon" />
+            <div class="portfolio-overlay">
+              <h3>Model Site (Salon de Înfrumusețare)</h3>
+              <p>Design elegant, galerie foto și sistem de programări</p>
+              <a href="https://alexie13.github.io/salon-de-infrumusetare/"
+                ><button class="btn view-project" data-project="salon">
+                  Vezi Detalii
+                </button></a
+              >
+            </div>
+          </div>
+          <div class="portfolio-item">
+            <img src="cabinetstomatologic.png" alt="Proiect Cabinet Medical" />
+            <div class="portfolio-overlay">
+              <h3>Model Site (Cabinet Stomatologic)</h3>
+              <p>Interfață intuitivă, prezentare servicii și echipă</p>
+              <a href="https://alexie13.github.io/cabinet-stomatologic/"
+                ><button class="btn view-project" data-project="medical">
+                  Vezi Detalii
+                </button></a
+              >
+            </div>
+          </div>
+          <div class="portfolio-item">
+            <img src="hotel.png" alt="Proiect Pensiune" />
+            <div class="portfolio-overlay">
+              <h3>Model Site (Hotel)</h3>
+              <p>Galerie foto, prezentare facilități și sistem de rezervări</p>
+              <a href="https://alexie13.github.io/hotel/"
+                ><button class="btn view-project" data-project="pensiune">
+                  Vezi Detalii
+                </button></a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section contact" id="contact">
+      <div class="container">
+        <div class="section-header">
+          <h2>Contact</h2>
+          <p>Ai întrebări sau ești gata să începem? Contactează-ne cât mai curând!</p>
+        </div>
+
+        <div class="contact-grid">
+          <div class="contact-info">
+            <h3>Informații de Contact</h3>
+            <ul class="contact-details">
+              <li>
+                <div class="contact-icon">👤</div>
+                <div>
+                  <strong>Nume:</strong>
+                  <p>Taflan Alexie (Founder)</p>
+                  <p>Stupariu Alex (Co-Founder)</p>
+                </div>
+              </li>
+              <li>
+                <div class="contact-icon">📱</div>
+                <div>
+                  <strong>Telefon:</strong>
+                  <p>Web Developer Alexie (Founder): 0754 949 896</p>
+                  <p>Web Developer Alex (Co-Founder): 0725 236 596</p>
+                </div>
+              </li>
+              <li>
+                <div class="contact-icon">✉️</div>
+                <div>
+                  <strong>Email:</strong>
+                  <p>webatsofficial@gmail.com</p>
+                </div>
+              </li>
+              <li>
+                <div class="contact-icon">🔍</div>
+                <div>
+                  <strong>Program:</strong>
+                  <p>Luni - Vineri: 16:00 - 21:00</p>
+                  <p>Sâmbătă: 12:00 - 18:00</p>
+                  <p>Duminică: închis</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-col">
+            <h4>WebATS</h4>
+            <p>
+              Soluții web personalizate pentru afacerea ta, la prețuri
+              accesibile și termene rapide de livrare.
+            </p>
+          </div>
+          <div class="footer-col">
+            <h4>Servicii</h4>
+            <ul class="footer-links">
+              <li><a href="#servicii">Creare site-uri</a></li>
+              <li><a href="#servicii">Actualizare site-uri</a></li>
+              <li><a href="#preturi">Prețuri</a></li>
+              <li><a href="#portofoliu">Modele de site-uri</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Contact Rapid</h4>
+            <ul class="footer-links">
+              <li><a href="tel:0754949896">Web Developer Alexie (Founder): 0754 949 896</a></li>
+              <li><a href="tel:0725236596">Web Developer Alex (Co-Founder): 0725 236 596</a></li>
+              <li>
+                <a href="mailto:webatsofficial@gmail.com"
+                  >webatsofficial@gmail.com</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="copyright"></div>
+      </div>
+    </footer>
+  </body>
+</html>
